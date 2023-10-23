@@ -1,0 +1,65 @@
+abhi> db.sales.find();
+[
+  { _id: 1, quantity: 10, price: 300, targetPrice: 120 },
+  { _id: 3, quantity: 6, price: 35, targetPrice: 100 },
+  { _id: 2, quantity: 5, price: 25, targetPrice: 100 },
+  { _id: 5, quantity: 5, price: 55, targetPrice: 150 },
+  { _id: 4, quantity: 5, price: 55, targetPrice: 150 }
+]
+abhi> db.sales.aggregate( { $group : { _id : "$quantity" } });
+[ { _id: 6 }, { _id: 5 }, { _id: 10 } ]
+abhi> db.sales.aggregate( { $group : { _id : "$quantity" ,"Totat_price" : { $sum :"$targetPrice" } } });
+[
+  { _id: 6, Totat_price: 100 },
+  { _id: 5, Totat_price: 400 },
+  { _id: 10, Totat_price: 120 }
+]
+abhi> db.sales.aggregate( { $group : { _id : "$quantity" ,"Totat_price" : { $avg :"$targetPrice" } } });
+[
+  { _id: 10, Totat_price: 120 },
+  { _id: 5, Totat_price: 133.33333333333334 },
+  { _id: 6, Totat_price: 100 }
+]
+abhi> db.sales.aggregate( { $group : { _id : "$quantity" ,"Totat_price" : { $min :"$targetPrice" } } });
+[
+  { _id: 10, Totat_price: 120 },
+  { _id: 5, Totat_price: 100 },
+  { _id: 6, Totat_price: 100 }
+]
+abhi> db.sales.aggregate( { $group : { _id : "$quantity" ,"Totat_price" : { $max :"$targetPrice" } } });
+[
+  { _id: 6, Totat_price: 100 },
+  { _id: 10, Totat_price: 120 },
+  { _id: 5, Totat_price: 150 }
+]
+abhi> db.sales.aggregate( { $group : { _id : "$quantity" ,"Totat_price" : { $first :"$targetPrice" } } });
+[
+  { _id: 10, Totat_price: 120 },
+  { _id: 6, Totat_price: 100 },
+  { _id: 5, Totat_price: 100 }
+]
+abhi> db.sales.aggregate( { $group : { _id : "$quantity" ,"Totat_price" : { $last :"$targetPrice" } } });
+[
+  { _id: 6, Totat_price: 100 },
+  { _id: 10, Totat_price: 120 },
+  { _id: 5, Totat_price: 150 }
+]
+abhi> db.sales.aggregate( { $group : { _id : "$quantity" ,"Totat_price" : { $push :"$targetPrice" } } });
+[
+  { _id: 6, Totat_price: [ 100 ] },
+  { _id: 5, Totat_price: [ 100, 150, 150 ] },
+  { _id: 10, Totat_price: [ 120 ] }
+]
+abhi> db.sales.aggregate( { $group : { _id : "$quantity" ,"Totat_price" : { $sum :1  } } });
+[
+  { _id: 6, Totat_price: 1 },
+  { _id: 10, Totat_price: 1 },
+  { _id: 5, Totat_price: 3 }
+]
+abhi> db.sales.aggregate( { $group : { _id : "$quantity" ,"Totat_price" : { $addToSet :"$targetPrice"  } } });
+[
+  { _id: 10, Totat_price: [ 120 ] },
+  { _id: 5, Totat_price: [ 150, 100 ] },
+  { _id: 6, Totat_price: [ 100 ] }
+]
+abhi>
